@@ -155,7 +155,7 @@ void decrypt(bit64 state[5], int length, bit64 plaintext[], bit64 ciphertext[])
   }
 }
 
-bit64 *text_to_hex(char text[], int *hex_text_length)
+bit64 *text_to_hex(char *text, int *hex_text_length)
 {
   int text_length = strlen(text);
   // Her 8 byte bir blok olacak şekilde hesaplanır
