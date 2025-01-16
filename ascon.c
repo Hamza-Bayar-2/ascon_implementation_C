@@ -186,6 +186,26 @@ bit64 *text_to_hex(char *text, int *hex_text_length)
   return hex_text;
 }
 
+void hex_to_text_and_log(bit64 *hex_text, int hex_text_length)
+{
+  char buffer[9]; // Maksimum 8 karakter + null terminator
+  buffer[8] = '\0'; // Null terminator
+
+  printf("Decrypted text: ");
+  for (int i = 0; i < hex_text_length; i++)
+  {
+    bit64 block = hex_text[i];
+    for (int j = 7; j >= 0; j--) // Bloktaki baytları sırayla çıkar
+    {
+      unsigned char byte = (block >> (j * 8)) & 0xFF; // Her bir byte'ı al
+      buffer[7 - j] = (char)byte;
+    }
+    buffer[8] = '\0'; // Her blok için null terminator
+    printf("%s", buffer); // Buffer'ı logla
+  }
+  printf("\n"); // Satırı tamamla
+}
+
 void print_given_list(bit64 *list, int length)
 {
   for (int i = 0; i < length; i++)
@@ -205,7 +225,7 @@ int main()
   bit64 IV = 0x80400c0600000000;
   // Örnek bir metin
   // (You can encrypt the text you want...)
-  char text[] = "SAMSUN";
+  char text[] = "ATAKUM SAMSUN";
   // hex_text_length, Verilen text'in kaç adet 8 byte'lık bloktan oluştuğunu tutar
   // (hex_text_length, It holds how many 8 byte blocks the given text consists of)
   int hex_text_length = 0;
@@ -255,6 +275,8 @@ int main()
   decrypt(state, hex_text_length, plaintext_decrypt, ciphertext_decrypt);
   printf("\nDecrypted plaintext:\n");
   print_given_list(plaintext_decrypt, hex_text_length);
+
+  hex_to_text_and_log(plaintext_decrypt, hex_text_length);
 
   finalization(state, key);
   printf("\nTag: %016I64x %016I64x\n", state[3], state[4]);
