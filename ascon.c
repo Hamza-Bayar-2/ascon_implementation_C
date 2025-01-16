@@ -186,7 +186,7 @@ bit64 *text_to_hex(char *text, int *hex_text_length)
   return hex_text;
 }
 
-void hex_to_text_and_log(bit64 *hex_text, int hex_text_length)
+void hex_to_text_and_print(bit64 *hex_text, int hex_text_length)
 {
   char buffer[9]; // Maksimum 8 karakter + null terminator
   buffer[8] = '\0'; // Null terminator
@@ -276,7 +276,7 @@ int main()
   printf("\nDecrypted plaintext:\n");
   print_given_list(plaintext_decrypt, hex_text_length);
 
-  hex_to_text_and_log(plaintext_decrypt, hex_text_length);
+  hex_to_text_and_print(plaintext_decrypt, hex_text_length);
 
   finalization(state, key);
   printf("\nTag: %016I64x %016I64x\n", state[3], state[4]);
